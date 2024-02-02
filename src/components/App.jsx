@@ -83,6 +83,9 @@ function App() {
   };
 
   useEffect(() => {
+    //jeżeli nie mamy query to zakończ działanie funkcji
+    if (!query) return;
+    
     fetchImages();
     // eslint-disable-next-line
   }, [query, page]);
@@ -90,7 +93,7 @@ function App() {
   return (
     <div className="App">
       <Searchbar onSubmit={handleSearch} />
-    {query && <ImageGallery images={images} openModal={openModal} />}
+    {images.length > 0 && <ImageGallery images={images} openModal={openModal} />}
       {loading && <Loader />}
       {images.length > 0 && !loading && (
         <Button onClick={handleLoadMore} />
