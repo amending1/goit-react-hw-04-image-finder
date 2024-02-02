@@ -31,9 +31,7 @@ function App() {
   // }
 
   //REFACTORING
-  useEffect(() => {
-    fetchImages();
-  }, [query]);
+ 
 
   // Metoda fetchImages () odpowiedzialna za pobieranie obrazów z serwera Pixabay na podstawie aktualnego zapytania 'query' i numeru strony 'page'. Buduje URL zgodnie z wymaganiami Pixabay, następnie wykonuje zapytanie GET przy użyciu biblioteki Axios. Po pomyślnym pobraniu danych, nowe obrazy są dodawane do istniejącej tablicy 'images', a 'page' jest zwiększany o 1. Po zakończeniu pobierania danych, flaga 'loading' jest ustawiana na 'false'
   const fetchImages = () => {
@@ -51,7 +49,7 @@ function App() {
           //[...prevState.images] tworzy nową tablicę zawierającą wszystkie obiekty z tablicy prevState.images, czyli obrazy pobrane wcześniej z poprzednich zapytań. [...response.data.hits] rozwija tablicę response.data.hits, która zawiera nowo pobrane obrazy z serwera Pixabay. Cała konstrukcja [...prevState.images, ...response.data.hits] łączy obie te tablice w jedną, zawierającą zarówno wcześniej pobrane obrazy, jak i nowo pobrane obrazy
           [...prevImages, ...response.data.hits]
         ); //hits z Pixabay
-        setPage(prevPage => prevPage + 1);
+       
       })
       .catch(error => console.log('Error fetching data', error))
 
@@ -69,6 +67,7 @@ function App() {
   // Metoda 'handleLoadMore()' jest wywoływana, gdy użytkownik wczytuje kolejną porcję obrazków, klikając przycisk "Load more". Wywołuje ona metodę fetchImages(), aby pobrać kolejną stronę obrazków.
   const handleLoadMore = () => {
     fetchImages();
+    setPage(prevPage => prevPage + 1);
   };
 
   // Metoda 'openModal(largeImageURL)' jest wywoływana, gdy użytkownik kliknie na miniaturę obrazu w komponencie 'ImageGallery', żeby otworzyć okno modalne z większym obrazem. Ustawia ona flagę 'showModal' na 'true' oraz przekazuje adres URL większego obrazu do wyświetlenia w oknie modalnym.
@@ -82,6 +81,11 @@ function App() {
     setShowModal(false); 
     setLargeImageURL('');
   };
+
+  useEffect(() => {
+    fetchImages();
+    // eslint-disable-next-line
+  }, [query, page]);
 
   return (
     <div className="App">
