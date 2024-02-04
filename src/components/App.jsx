@@ -66,7 +66,7 @@ function App() {
 
   // Metoda 'handleLoadMore()' jest wywoływana, gdy użytkownik wczytuje kolejną porcję obrazków, klikając przycisk "Load more". Wywołuje ona metodę fetchImages(), aby pobrać kolejną stronę obrazków.
   const handleLoadMore = () => {
-    fetchImages();
+    // fetchImages(); - musiałam usunąć tę linijkę, ponieważ funkcja fetchImages() jest już wywoływana  wewnątrz useEffect (aktualizuje się strona poprzez setPages, to wpływa na tblicę zależności wewnątrz useEffect(), co powoduje wywołanie funkcji fetchImages() )
     setPage(prevPage => prevPage + 1);
   };
 
